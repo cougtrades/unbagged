@@ -251,7 +251,9 @@ export default function Home() {
                 separator=","
                 useEasing={true}
                 enableScrollSpy={true}
-                scrollSpyOnce={false}
+                scrollSpyOnce={true}
+                start={0}
+                key={`bags-${tokenData?.bagsRemoved || 0}`}
               />
             </div>
             <p className="text-lg sm:text-xl text-gray-600">from the ocean</p>
@@ -275,7 +277,9 @@ export default function Home() {
                 decimals={2}
                 useEasing={true}
                 enableScrollSpy={true}
-                scrollSpyOnce={false}
+                scrollSpyOnce={true}
+                start={0}
+                key={`ocean-sol-${tokenData?.oceanCleanupDonation || 0}`}
               /> SOL
             </div>
             <div className="text-lg sm:text-xl font-semibold text-ocean-500 mb-2">
@@ -285,7 +289,9 @@ export default function Home() {
                 separator=","
                 useEasing={true}
                 enableScrollSpy={true}
-                scrollSpyOnce={false}
+                scrollSpyOnce={true}
+                start={0}
+                key={`ocean-usd-${(tokenData?.oceanCleanupDonation || 0) * solPrice}`}
               />
             </div>
             <p className="text-sm sm:text-base text-gray-600">90% of fees donated</p>
@@ -306,7 +312,9 @@ export default function Home() {
                 decimals={2}
                 useEasing={true}
                 enableScrollSpy={true}
-                scrollSpyOnce={false}
+                scrollSpyOnce={true}
+                start={0}
+                key={`fees-sol-${tokenData?.feesCollected || 0}`}
               /> SOL
             </div>
             <div className="text-lg sm:text-xl font-semibold text-yellow-500 mb-2">
@@ -316,7 +324,9 @@ export default function Home() {
                 separator=","
                 useEasing={true}
                 enableScrollSpy={true}
-                scrollSpyOnce={false}
+                scrollSpyOnce={true}
+                start={0}
+                key={`fees-usd-${(tokenData?.feesCollected || 0) * solPrice}`}
               />
             </div>
             <p className="text-sm sm:text-base text-gray-600">total trading fees</p>
