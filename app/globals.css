@@ -24,4 +24,14 @@
   .unbagged-gradient {
     @apply bg-gradient-to-r from-unbagged-400 to-unbagged-600;
   }
+  
+  .hero-bg {
+    @apply bg-cover bg-center bg-no-repeat;
+  }
+  
+  @media (max-width: 640px) {
+    .hero-bg {
+      background-position: center 30% !important;
+    }
+  }
 } 

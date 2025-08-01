@@ -129,9 +129,9 @@ export default function Home() {
       >
         {/* Background Image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 hero-bg"
           style={{
-            backgroundImage: `url('/turtle.jpg')`,
+            backgroundImage: `url('/turtle.jpg')`
           }}
         >
           <div className="absolute inset-0 bg-black/50"></div>
