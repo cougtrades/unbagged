@@ -182,7 +182,7 @@ export default function Home() {
             </div>
 
             {/* Social Links */}
-            <div className="flex justify-center gap-4 sm:gap-6">
+            <div className="flex justify-center gap-4 sm:gap-6 mb-6 sm:mb-8">
               <a 
                 href="https://x.com/i/communities/1951105698575577552" 
                 target="_blank" 
@@ -199,6 +199,18 @@ export default function Home() {
                 className="hover:opacity-80 transition-opacity"
               >
                 <img src="/bags-icon.png" alt="Bags.fm" className="w-8 h-8 sm:w-10 sm:h-10 filter brightness-0 invert" />
+              </a>
+            </div>
+
+            {/* Buy on Solana Button */}
+            <div className="flex justify-center">
+              <a 
+                href="https://jup.ag/swap?sell=So11111111111111111111111111111111111111112&buy=8zdFumGcK2iF8AcqfSEjaPX4NzPuP3Tyx7msnvcsBAGS"
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-200 px-6 py-3 rounded-full text-white font-semibold text-lg border border-white/30 hover:border-white/50"
+              >
+                <span>Buy on Solana</span>
               </a>
             </div>
           </motion.div>
