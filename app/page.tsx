@@ -9,7 +9,8 @@ import {
   DollarSign,
   Activity,
   Twitter,
-  ExternalLink
+  ExternalLink,
+  ChevronDown
 } from 'lucide-react';
 
 // Define the data type locally to avoid importing the old service
@@ -180,6 +181,14 @@ export default function Home() {
           </motion.div>
         </div>
 
+        {/* Bouncing Scroll Indicator */}
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white"
+        >
+          <ChevronDown className="w-8 h-8 animate-pulse" />
+        </motion.div>
 
       </motion.div>
 

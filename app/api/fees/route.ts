@@ -1,14 +1,15 @@
 import { NextResponse } from 'next/server';
-
-// Simple in-memory storage that works with Netlify
-// In production, you'd want to use a database
-let currentFees = 137.31;
+import { getCurrentFees, updateFees, getFeesData, initDatabase } from '@/lib/database';
 
 export async function GET() {
   try {
-    console.log('🔍 Fetching fees data...');
+    console.log('🔍 Fetching fees data from database...');
     
-    const totalFees = currentFees;
+    // Initialize database if needed
+    await initDatabase();
+    
+    const feesData = await getFeesData();
+    const totalFees = feesData.totalFees;
     const totalSupply = 999999366.7835349;
     const bagsPerSol = 3300;
     const oceanCleanupPercentage = 0.90;
@@ -28,8 +29,8 @@ export async function GET() {
       price: 0,
       feesCollected: totalFees,
       totalTransactions: Math.round(bagsRemoved / 100),
-      lastTransactionTime: new Date().toISOString(),
-      dataSource: 'Memory Storage',
+      lastTransactionTime: feesData.lastUpdated,
+      dataSource: 'Neon Database',
       isLive: true,
       baselineFees: totalFees,
       additionalFees: 0,
@@ -74,8 +75,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid total fees value' }, { status: 400 });
     }
 
-    // Update the in-memory value
-    currentFees = totalFees;
+    // Initialize database if needed
+    await initDatabase();
+    
+    // Update the database
+    const success = await updateFees(totalFees);
+    
+    if (!success) {
+      return NextResponse.json({ error: 'Failed to save fees data' }, { status: 500 });
+    }
     
     console.log(`✅ Total fees updated to: ${totalFees} SOL`);
     
