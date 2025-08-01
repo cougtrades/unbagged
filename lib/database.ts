@@ -1,7 +1,8 @@
 import { neon } from '@neondatabase/serverless';
 
-// Get database URL from environment variable
-const sql = neon(process.env.DATABASE_URL!);
+// Get database URL from Netlify's Neon extension
+// Netlify automatically provides this environment variable
+const sql = neon(process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.PRIMARY_DATABASE_URL!);
 
 // Initialize database table
 export async function initDatabase() {

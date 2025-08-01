@@ -66,10 +66,8 @@ Create a `.env.local` file:
 # Admin password (required for admin panel)
 NEXT_PUBLIC_ADMIN_PASSWORD=your_secure_password_here
 
-# Neon Database (required for persistent fees storage)
-DATABASE_URL=your_neon_database_connection_string
-
-# Add any other environment variables here
+# Database is automatically provided by Netlify's Neon extension
+# No manual DATABASE_URL needed
 ```
 
 ## 🚀 Deployment
@@ -134,22 +132,20 @@ Update total fees (admin only):
 
 ## 🗄️ Database Integration
 
-Using Neon database for persistent fees storage:
+Using Netlify's Neon extension for persistent fees storage:
 
 ```bash
 # Install Neon database
 npm install @neondatabase/serverless
 
-# Add to .env.local
-DATABASE_URL=your_neon_connection_string
+# Netlify automatically provides the database connection
 ```
 
-### Setup Neon Database:
-1. Create account at [neon.tech](https://neon.tech)
-2. Create a new project
-3. Copy the connection string
-4. Add to Netlify environment variables
-5. The database will auto-initialize on first use
+### Setup Netlify Neon Extension:
+1. ✅ **Already configured** - You have the Neon extension enabled
+2. ✅ **Auto-connection** - Netlify provides the database URL automatically
+3. ✅ **Auto-initialization** - Database table creates itself on first use
+4. ✅ **No manual setup** - Everything works out of the box
 
 ## 🐛 Troubleshooting
 
