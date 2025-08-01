@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import CountUp from 'react-countup';
 import { 
   Waves, 
   Trash2, 
@@ -244,7 +245,14 @@ export default function Home() {
               <h3 className="text-2xl sm:text-4xl font-bold text-gray-900">Bags Removed</h3>
             </div>
             <div className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-unbagged-600 mb-4">
-              {(tokenData?.bagsRemoved || 0).toLocaleString()}
+              <CountUp 
+                end={tokenData?.bagsRemoved || 0} 
+                duration={2}
+                separator=","
+                useEasing={true}
+                enableScrollSpy={true}
+                scrollSpyOnce={false}
+              />
             </div>
             <p className="text-lg sm:text-xl text-gray-600">from the ocean</p>
           </div>
@@ -261,10 +269,24 @@ export default function Home() {
             <Heart className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 text-ocean-500" />
             <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Ocean Cleanup</h3>
             <div className="text-3xl sm:text-4xl font-bold text-ocean-600 mb-2">
-              {(tokenData?.oceanCleanupDonation || 0).toFixed(2)} SOL
+              <CountUp 
+                end={tokenData?.oceanCleanupDonation || 0} 
+                duration={1.5}
+                decimals={2}
+                useEasing={true}
+                enableScrollSpy={true}
+                scrollSpyOnce={false}
+              /> SOL
             </div>
             <div className="text-lg sm:text-xl font-semibold text-ocean-500 mb-2">
-              ${((tokenData?.oceanCleanupDonation || 0) * solPrice).toLocaleString()}
+              $<CountUp 
+                end={(tokenData?.oceanCleanupDonation || 0) * solPrice} 
+                duration={1.5}
+                separator=","
+                useEasing={true}
+                enableScrollSpy={true}
+                scrollSpyOnce={false}
+              />
             </div>
             <p className="text-sm sm:text-base text-gray-600">90% of fees donated</p>
           </motion.div>
@@ -278,10 +300,24 @@ export default function Home() {
             <DollarSign className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 text-yellow-500" />
             <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Fees Collected</h3>
             <div className="text-3xl sm:text-4xl font-bold text-yellow-600 mb-2">
-              {(tokenData?.feesCollected || 0).toFixed(2)} SOL
+              <CountUp 
+                end={tokenData?.feesCollected || 0} 
+                duration={1.5}
+                decimals={2}
+                useEasing={true}
+                enableScrollSpy={true}
+                scrollSpyOnce={false}
+              /> SOL
             </div>
             <div className="text-lg sm:text-xl font-semibold text-yellow-500 mb-2">
-              ${((tokenData?.feesCollected || 0) * solPrice).toLocaleString()}
+              $<CountUp 
+                end={(tokenData?.feesCollected || 0) * solPrice} 
+                duration={1.5}
+                separator=","
+                useEasing={true}
+                enableScrollSpy={true}
+                scrollSpyOnce={false}
+              />
             </div>
             <p className="text-sm sm:text-base text-gray-600">total trading fees</p>
           </motion.div>
