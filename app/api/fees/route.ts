@@ -1,60 +1,14 @@
 import { NextResponse } from 'next/server';
-import { writeFileSync, readFileSync, existsSync } from 'fs';
-import { join } from 'path';
 
-// File-based storage for persistence across serverless instances
-const STORAGE_FILE = join(process.cwd(), 'data', 'fees.json');
-
-// Ensure data directory exists
-const ensureDataDir = () => {
-  const dataDir = join(process.cwd(), 'data');
-  if (!existsSync(dataDir)) {
-    try {
-      const fs = require('fs');
-      fs.mkdirSync(dataDir, { recursive: true });
-    } catch (error) {
-      console.error('Failed to create data directory:', error);
-    }
-  }
-};
-
-// Read fees data from file or use default
-const readFeesData = () => {
-  try {
-    ensureDataDir();
-    if (existsSync(STORAGE_FILE)) {
-      const data = readFileSync(STORAGE_FILE, 'utf8');
-      return JSON.parse(data);
-    }
-  } catch (error) {
-    console.error('Error reading fees data:', error);
-  }
-  
-  // Default data
-  return {
-    totalFees: 137.31,
-    lastUpdated: new Date().toISOString()
-  };
-};
-
-// Write fees data to file
-const writeFeesData = (data: any) => {
-  try {
-    ensureDataDir();
-    writeFileSync(STORAGE_FILE, JSON.stringify(data, null, 2));
-    return true;
-  } catch (error) {
-    console.error('Error writing fees data:', error);
-    return false;
-  }
-};
+// Simple in-memory storage that works with Netlify
+// In production, you'd want to use a database
+let currentFees = 137.31;
 
 export async function GET() {
   try {
-    console.log('🔍 Fetching fees data from persistent storage...');
+    console.log('🔍 Fetching fees data...');
     
-    const feesData = readFeesData();
-    const totalFees = feesData.totalFees;
+    const totalFees = currentFees;
     const totalSupply = 999999366.7835349;
     const bagsPerSol = 3300;
     const oceanCleanupPercentage = 0.90;
@@ -74,8 +28,8 @@ export async function GET() {
       price: 0,
       feesCollected: totalFees,
       totalTransactions: Math.round(bagsRemoved / 100),
-      lastTransactionTime: feesData.lastUpdated || new Date().toISOString(),
-      dataSource: 'Persistent Storage',
+      lastTransactionTime: new Date().toISOString(),
+      dataSource: 'Memory Storage',
       isLive: true,
       baselineFees: totalFees,
       additionalFees: 0,
@@ -120,21 +74,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid total fees value' }, { status: 400 });
     }
 
-    // Update the persistent storage
-    const success = writeFeesData({
-      totalFees,
-      lastUpdated: new Date().toISOString()
-    });
-    
-    if (!success) {
-      return NextResponse.json({ error: 'Failed to save fees data' }, { status: 500 });
-    }
+    // Update the in-memory value
+    currentFees = totalFees;
     
     console.log(`✅ Total fees updated to: ${totalFees} SOL`);
     
     return NextResponse.json({ 
       success: true, 
-      message: 'Total fees updated successfully',
+      message: 'Total fees updated successfully!',
       totalFees 
     });
     
