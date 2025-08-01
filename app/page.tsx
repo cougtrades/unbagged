@@ -273,33 +273,7 @@ export default function Home() {
 
         </div>
 
-        {/* Additional Info */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="text-center"
-        >
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/20">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">How It Works</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-              <div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">The Mission</h4>
-                <p className="text-gray-600">
-                  Every time someone trades the unbagged token, a portion of the fees goes directly to ocean cleanup efforts. 
-                  For every 1 SOL in fees, 3,300 bags are removed from the ocean.
-                </p>
-              </div>
-              <div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">The Impact</h4>
-                <p className="text-gray-600">
-                  90% of all fees collected are donated directly to @TheOceanCleanup, 
-                  while 10% is used for marketing to spread awareness about ocean pollution.
-                </p>
-              </div>
-            </div>
-          </div>
-        </motion.div>
+
       </div>
 
       {/* Footer */}
