@@ -5,10 +5,12 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
   
   body {
     @apply bg-gradient-to-br from-ocean-50 to-ocean-100 min-h-screen;
+    overflow-x: hidden;
   }
 }
 
