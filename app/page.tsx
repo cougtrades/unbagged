@@ -153,7 +153,7 @@ export default function Home() {
             
             <div className="flex flex-col items-center gap-4 mb-8">
               <span className="bg-white/20 px-6 py-3 rounded-full backdrop-blur-sm text-lg font-medium">
-                Token: 8zdFumGcK2iF8AcqfSEjaPX4NzPuP3Tyx7msnvcsBAGS
+                CA: 8zdFumGcK2iF8AcqfSEjaPX4NzPuP3Tyx7msnvcsBAGS
               </span>
             </div>
 
@@ -163,37 +163,24 @@ export default function Home() {
                 href="https://x.com/i/communities/1951105698575577552" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full backdrop-blur-sm hover:bg-white/30 transition-colors"
+                className="hover:opacity-80 transition-opacity"
               >
-                <Twitter className="w-5 h-5" />
-                <span>Community</span>
-                <ExternalLink className="w-4 h-4" />
+                <img src="/logo-white.png" alt="X Community" className="w-10 h-10" />
               </a>
               
               <a 
                 href="https://bags.fm/8zdFumGcK2iF8AcqfSEjaPX4NzPuP3Tyx7msnvcsBAGS" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full backdrop-blur-sm hover:bg-white/30 transition-colors"
+                className="hover:opacity-80 transition-opacity"
               >
-                <Trash2 className="w-5 h-5" />
-                <span>Bags.fm</span>
-                <ExternalLink className="w-4 h-4" />
+                <img src="/bags-icon.png" alt="Bags.fm" className="w-10 h-10 filter brightness-0 invert" />
               </a>
             </div>
           </motion.div>
         </div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white"
-        >
-          <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white rounded-full mt-2 animate-bounce"></div>
-          </div>
-        </motion.div>
+
       </motion.div>
 
 
