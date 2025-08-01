@@ -38,6 +38,7 @@ export default function Home() {
   const [isLive, setIsLive] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [dataSource, setDataSource] = useState<string>('');
+  const [solPrice, setSolPrice] = useState<number>(100); // Default fallback price
 
   useEffect(() => {
     const fetchData = async () => {
@@ -93,13 +94,29 @@ export default function Home() {
       }
     };
 
+    const fetchSolPrice = async () => {
+      try {
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
+        const data = await response.json();
+        if (data.solana?.usd) {
+          setSolPrice(data.solana.usd);
+        }
+      } catch (error) {
+        console.log('Using fallback SOL price');
+      }
+    };
+
     // Initial data fetch
     fetchData();
+    fetchSolPrice();
     
     // Refresh data every 30 seconds
     const interval = setInterval(fetchData, 30000);
+    const priceInterval = setInterval(fetchSolPrice, 60000); // Update price every minute
+    
     return () => {
       clearInterval(interval);
+      clearInterval(priceInterval);
     };
   }, []);
 
@@ -246,6 +263,9 @@ export default function Home() {
             <div className="text-3xl sm:text-4xl font-bold text-ocean-600 mb-2">
               {(tokenData?.oceanCleanupDonation || 0).toFixed(2)} SOL
             </div>
+            <div className="text-lg sm:text-xl font-semibold text-ocean-500 mb-2">
+              ${((tokenData?.oceanCleanupDonation || 0) * solPrice).toLocaleString()}
+            </div>
             <p className="text-sm sm:text-base text-gray-600">90% of fees donated</p>
           </motion.div>
 
@@ -259,6 +279,9 @@ export default function Home() {
             <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Fees Collected</h3>
             <div className="text-3xl sm:text-4xl font-bold text-yellow-600 mb-2">
               {(tokenData?.feesCollected || 0).toFixed(2)} SOL
+            </div>
+            <div className="text-lg sm:text-xl font-semibold text-yellow-500 mb-2">
+              ${((tokenData?.feesCollected || 0) * solPrice).toLocaleString()}
             </div>
             <p className="text-sm sm:text-base text-gray-600">total trading fees</p>
           </motion.div>
