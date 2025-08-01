@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
-import { getCurrentFees, updateFees, getFeesData, initDatabase } from '@/lib/database';
+import { initDatabase, getFeesData, updateFeesData } from '@/lib/database';
 
 export async function GET() {
   try {
-    console.log('🔍 Fetching fees data from database...');
+    console.log('🔍 Fetching fees data from Neon database...');
     
-    // Initialize database if needed
+    // Initialize database on first request
     await initDatabase();
     
+    // Get fees data from database
     const feesData = await getFeesData();
     const totalFees = feesData.totalFees;
     const totalSupply = 999999366.7835349;
@@ -75,14 +76,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid total fees value' }, { status: 400 });
     }
 
-    // Initialize database if needed
+    // Initialize database
     await initDatabase();
     
     // Update the database
-    const success = await updateFees(totalFees);
+    const result = await updateFeesData(totalFees);
     
-    if (!success) {
-      return NextResponse.json({ error: 'Failed to save fees data' }, { status: 500 });
+    if (!result.success) {
+      return NextResponse.json({ error: result.error }, { status: 500 });
     }
     
     console.log(`✅ Total fees updated to: ${totalFees} SOL`);
