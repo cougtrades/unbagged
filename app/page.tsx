@@ -61,6 +61,8 @@ export default function Home() {
           setDataSource(data.dataSource || '');
         }
         
+        console.log('🔧 Setting loading to false...');
+        
         // Update the state with the new data
         setTokenData({
           totalSupply: data.totalSupply || 0,
@@ -76,6 +78,7 @@ export default function Home() {
         });
         setLastUpdated(new Date());
         setLoading(false);
+        console.log('✅ Loading set to false');
       } catch (error) {
         console.error('❌ Error fetching total fees data:', error);
         setError('Failed to fetch total fees data');
@@ -92,6 +95,7 @@ export default function Home() {
           totalTransactions: 0,
         });
         setLoading(false);
+        console.log('✅ Loading set to false (error case)');
       }
     };
 
@@ -130,6 +134,7 @@ export default function Home() {
           {error && (
             <p className="mt-2 text-red-500 text-sm">Error: {error}</p>
           )}
+          <p className="mt-2 text-sm text-gray-500">Debug: Loading state active</p>
         </div>
       </div>
     );
@@ -210,117 +215,150 @@ export default function Home() {
 
       </motion.div>
 
-
-
-      {/* Main Impact Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12 sm:mb-16"
-        >
-          <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold text-gray-900 mb-4 sm:mb-6">
-            Ocean Cleanup Impact
-          </h2>
-          <p className="text-lg sm:text-xl text-gray-600 px-2">Real-time tracking of bags removed from the ocean</p>
-          {error && (
-            <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <div className="flex items-center justify-center gap-2 text-yellow-800">
-                <span>⚠️ {error}</span>
+      {/* Main Impact Section with Bag Pattern Background */}
+      <div className="relative">
+        {/* Offset Bag Pattern Background */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url('/bagpng.png')`,
+            backgroundSize: '150px auto',
+            backgroundRepeat: 'repeat',
+            backgroundPosition: '0px 0px',
+            opacity: 1
+          }}
+        ></div>
+        
+        {/* Second Offset Layer */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url('/bagpng.png')`,
+            backgroundSize: '150px auto',
+            backgroundRepeat: 'repeat',
+            backgroundPosition: '75px 75px',
+            opacity: 1
+          }}
+        ></div>
+        
+        {/* Blue Gradient Overlay */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to bottom right, #e0f2fe, #b3e5fc)',
+            opacity: 0.9
+          }}
+        ></div>
+        
+                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12 sm:mb-16"
+          >
+            <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold text-gray-900 mb-4 sm:mb-6">
+              Ocean Cleanup Impact
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 px-2">Real-time tracking of bags removed from the ocean</p>
+            {error && (
+              <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <div className="flex items-center justify-center gap-2 text-yellow-800">
+                  <span>⚠️ {error}</span>
+                </div>
               </div>
-            </div>
-          )}
-        </motion.div>
+            )}
+          </motion.div>
 
-        {/* Big Bags Removed Display */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3 }}
-          className="text-center mb-12 sm:mb-16"
-        >
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-6 sm:p-12 shadow-2xl border border-white/20">
-            <div className="flex flex-col sm:flex-row items-center justify-center mb-4 sm:mb-6">
-              <Trash2 className="w-12 h-12 sm:w-16 sm:h-16 text-unbagged-500 mb-2 sm:mb-0 sm:mr-4" />
-              <h3 className="text-2xl sm:text-4xl font-bold text-gray-900">Bags Removed</h3>
+          {/* Big Bags Removed Display */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-center mb-12 sm:mb-16"
+          >
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-6 sm:p-12 shadow-2xl border border-white/20">
+              <div className="flex flex-col sm:flex-row items-center justify-center mb-4 sm:mb-6">
+                <Trash2 className="w-12 h-12 sm:w-16 sm:h-16 text-unbagged-500 mb-2 sm:mb-0 sm:mr-4" />
+                <h3 className="text-2xl sm:text-4xl font-bold text-gray-900">Bags Removed</h3>
+              </div>
+              <motion.div 
+                key={`bags-${tokenData?.bagsRemoved || 0}`}
+                initial={{ opacity: 0.7, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-unbagged-600 mb-4"
+              >
+                {(tokenData?.bagsRemoved || 0).toLocaleString()}
+              </motion.div>
+              <p className="text-lg sm:text-xl text-gray-600">from the ocean</p>
             </div>
-            <motion.div 
-              key={`bags-${tokenData?.bagsRemoved || 0}`}
-              initial={{ opacity: 0.7, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-unbagged-600 mb-4"
+          </motion.div>
+
+          {/* Impact Stats Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-12 sm:mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-xl border border-white/20 text-center"
             >
-              {(tokenData?.bagsRemoved || 0).toLocaleString()}
+              <Heart className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 text-ocean-500" />
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Ocean Cleanup</h3>
+              <motion.div 
+                key={`ocean-sol-${tokenData?.oceanCleanupDonation || 0}`}
+                initial={{ opacity: 0.7, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="text-3xl sm:text-4xl font-bold text-ocean-600 mb-2"
+              >
+                {(tokenData?.oceanCleanupDonation || 0).toFixed(2)} SOL
+              </motion.div>
+              <motion.div 
+                key={`ocean-usd-${(tokenData?.oceanCleanupDonation || 0) * solPrice}`}
+                initial={{ opacity: 0.7, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="text-lg sm:text-xl font-semibold text-ocean-500 mb-2"
+              >
+                ${((tokenData?.oceanCleanupDonation || 0) * solPrice).toLocaleString()}
+              </motion.div>
+              <p className="text-sm sm:text-base text-gray-600">90% of fees donated</p>
             </motion.div>
-            <p className="text-lg sm:text-xl text-gray-600">from the ocean</p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-xl border border-white/20 text-center"
+            >
+              <DollarSign className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 text-yellow-500" />
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Fees Collected</h3>
+              <motion.div 
+                key={`fees-sol-${tokenData?.feesCollected || 0}`}
+                initial={{ opacity: 0.7, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="text-3xl sm:text-4xl font-bold text-yellow-600 mb-2"
+              >
+                {(tokenData?.feesCollected || 0).toFixed(2)} SOL
+              </motion.div>
+              <motion.div 
+                key={`fees-usd-${(tokenData?.feesCollected || 0) * solPrice}`}
+                initial={{ opacity: 0.7, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="text-lg sm:text-xl font-semibold text-yellow-500 mb-2"
+              >
+                ${((tokenData?.feesCollected || 0) * solPrice).toLocaleString()}
+              </motion.div>
+              <p className="text-sm sm:text-base text-gray-600">total trading fees</p>
+            </motion.div>
+
+
           </div>
-        </motion.div>
-
-        {/* Impact Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-12 sm:mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-xl border border-white/20 text-center"
-          >
-            <Heart className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 text-ocean-500" />
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Ocean Cleanup</h3>
-            <motion.div 
-              key={`ocean-sol-${tokenData?.oceanCleanupDonation || 0}`}
-              initial={{ opacity: 0.7, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="text-3xl sm:text-4xl font-bold text-ocean-600 mb-2"
-            >
-              {(tokenData?.oceanCleanupDonation || 0).toFixed(2)} SOL
-            </motion.div>
-            <motion.div 
-              key={`ocean-usd-${(tokenData?.oceanCleanupDonation || 0) * solPrice}`}
-              initial={{ opacity: 0.7, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="text-lg sm:text-xl font-semibold text-ocean-500 mb-2"
-            >
-              ${((tokenData?.oceanCleanupDonation || 0) * solPrice).toLocaleString()}
-            </motion.div>
-            <p className="text-sm sm:text-base text-gray-600">90% of fees donated</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-xl border border-white/20 text-center"
-          >
-            <DollarSign className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 text-yellow-500" />
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Fees Collected</h3>
-            <motion.div 
-              key={`fees-sol-${tokenData?.feesCollected || 0}`}
-              initial={{ opacity: 0.7, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="text-3xl sm:text-4xl font-bold text-yellow-600 mb-2"
-            >
-              {(tokenData?.feesCollected || 0).toFixed(2)} SOL
-            </motion.div>
-            <motion.div 
-              key={`fees-usd-${(tokenData?.feesCollected || 0) * solPrice}`}
-              initial={{ opacity: 0.7, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="text-lg sm:text-xl font-semibold text-yellow-500 mb-2"
-            >
-              ${((tokenData?.feesCollected || 0) * solPrice).toLocaleString()}
-            </motion.div>
-            <p className="text-sm sm:text-base text-gray-600">total trading fees</p>
-          </motion.div>
 
 
         </div>
-
-
       </div>
 
 
