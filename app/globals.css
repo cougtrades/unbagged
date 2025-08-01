@@ -28,12 +28,4 @@
   .hero-bg {
     @apply bg-cover bg-center bg-no-repeat;
   }
-  
-  @media (max-width: 640px) {
-    .hero-bg {
-      background-size: contain !important;
-      background-position: center !important;
-      background-repeat: no-repeat !important;
-    }
-  }
 } 
