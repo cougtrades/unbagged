@@ -199,53 +199,7 @@ export default function Home() {
         </motion.div>
       </motion.div>
 
-      {/* Live Status */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-center gap-2 text-sm"
-        >
-          <div className={`flex items-center gap-2 ${isLive ? 'text-green-600' : 'text-gray-500'}`}>
-            <div className={`w-2 h-2 rounded-full ${isLive ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
-            <span>{isLive ? 'LIVE' : 'Connecting...'}</span>
-          </div>
-          <span className="text-gray-500">•</span>
-          <span className="text-gray-600">Last updated: {lastUpdated.toLocaleTimeString()}</span>
-          {dataSource && (
-            <>
-              <span className="text-gray-500">•</span>
-              <span className="text-blue-600">Source: {dataSource}</span>
-            </>
-          )}
-          {tokenData?.baselineFees && (
-            <>
-              <span className="text-gray-500">•</span>
-              <span className="text-green-600">Baseline: {tokenData.baselineFees.toFixed(2)} SOL</span>
-            </>
-          )}
-          {tokenData?.additionalFees && tokenData.additionalFees > 0 && (
-            <>
-              <span className="text-gray-500">•</span>
-              <span className="text-orange-600">+{tokenData.additionalFees.toFixed(6)} SOL</span>
-            </>
-          )}
-          {tokenData?.lastTransactionTime && (
-            <>
-              <span className="text-gray-500">•</span>
-              <span className="text-gray-600">
-                Last transaction: {tokenData.lastTransactionTime.toLocaleDateString()}
-              </span>
-            </>
-          )}
-          {error && (
-            <>
-              <span className="text-gray-500">•</span>
-              <span className="text-yellow-600">Demo Mode</span>
-            </>
-          )}
-        </motion.div>
-      </div>
+
 
       {/* Main Impact Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
