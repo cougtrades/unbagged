@@ -123,7 +123,7 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-ocean-50 to-ocean-100">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-ocean-50 to-ocean-100 overflow-x-hidden">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-ocean-500 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading ocean cleanup impact...</p>
@@ -250,8 +250,6 @@ export default function Home() {
                 duration={2}
                 separator=","
                 useEasing={true}
-                enableScrollSpy={true}
-                scrollSpyOnce={true}
                 start={0}
                 key={`bags-${tokenData?.bagsRemoved || 0}`}
               />
@@ -276,8 +274,6 @@ export default function Home() {
                 duration={1.5}
                 decimals={2}
                 useEasing={true}
-                enableScrollSpy={true}
-                scrollSpyOnce={true}
                 start={0}
                 key={`ocean-sol-${tokenData?.oceanCleanupDonation || 0}`}
               /> SOL
@@ -288,8 +284,6 @@ export default function Home() {
                 duration={1.5}
                 separator=","
                 useEasing={true}
-                enableScrollSpy={true}
-                scrollSpyOnce={true}
                 start={0}
                 key={`ocean-usd-${(tokenData?.oceanCleanupDonation || 0) * solPrice}`}
               />
@@ -311,8 +305,6 @@ export default function Home() {
                 duration={1.5}
                 decimals={2}
                 useEasing={true}
-                enableScrollSpy={true}
-                scrollSpyOnce={true}
                 start={0}
                 key={`fees-sol-${tokenData?.feesCollected || 0}`}
               /> SOL
@@ -323,8 +315,6 @@ export default function Home() {
                 duration={1.5}
                 separator=","
                 useEasing={true}
-                enableScrollSpy={true}
-                scrollSpyOnce={true}
                 start={0}
                 key={`fees-usd-${(tokenData?.feesCollected || 0) * solPrice}`}
               />
