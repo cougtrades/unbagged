@@ -244,16 +244,15 @@ export default function Home() {
               <Trash2 className="w-12 h-12 sm:w-16 sm:h-16 text-unbagged-500 mb-2 sm:mb-0 sm:mr-4" />
               <h3 className="text-2xl sm:text-4xl font-bold text-gray-900">Bags Removed</h3>
             </div>
-            <div className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-unbagged-600 mb-4">
-              <CountUp 
-                end={tokenData?.bagsRemoved || 0} 
-                duration={1}
-                separator=","
-                useEasing={true}
-                start={0}
-                key={`bags-${tokenData?.bagsRemoved || 0}`}
-              />
-            </div>
+            <motion.div 
+              key={`bags-${tokenData?.bagsRemoved || 0}`}
+              initial={{ opacity: 0.7, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-unbagged-600 mb-4"
+            >
+              {(tokenData?.bagsRemoved || 0).toLocaleString()}
+            </motion.div>
             <p className="text-lg sm:text-xl text-gray-600">from the ocean</p>
           </div>
         </motion.div>
@@ -268,26 +267,24 @@ export default function Home() {
           >
             <Heart className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 text-ocean-500" />
             <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Ocean Cleanup</h3>
-            <div className="text-3xl sm:text-4xl font-bold text-ocean-600 mb-2">
-              <CountUp 
-                end={tokenData?.oceanCleanupDonation || 0} 
-                duration={1}
-                decimals={2}
-                useEasing={true}
-                start={0}
-                key={`ocean-sol-${tokenData?.oceanCleanupDonation || 0}`}
-              /> SOL
-            </div>
-            <div className="text-lg sm:text-xl font-semibold text-ocean-500 mb-2">
-              $<CountUp 
-                end={(tokenData?.oceanCleanupDonation || 0) * solPrice} 
-                duration={1}
-                separator=","
-                useEasing={true}
-                start={0}
-                key={`ocean-usd-${(tokenData?.oceanCleanupDonation || 0) * solPrice}`}
-              />
-            </div>
+            <motion.div 
+              key={`ocean-sol-${tokenData?.oceanCleanupDonation || 0}`}
+              initial={{ opacity: 0.7, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="text-3xl sm:text-4xl font-bold text-ocean-600 mb-2"
+            >
+              {(tokenData?.oceanCleanupDonation || 0).toFixed(2)} SOL
+            </motion.div>
+            <motion.div 
+              key={`ocean-usd-${(tokenData?.oceanCleanupDonation || 0) * solPrice}`}
+              initial={{ opacity: 0.7, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="text-lg sm:text-xl font-semibold text-ocean-500 mb-2"
+            >
+              ${((tokenData?.oceanCleanupDonation || 0) * solPrice).toLocaleString()}
+            </motion.div>
             <p className="text-sm sm:text-base text-gray-600">90% of fees donated</p>
           </motion.div>
 
@@ -299,26 +296,24 @@ export default function Home() {
           >
             <DollarSign className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 text-yellow-500" />
             <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Fees Collected</h3>
-            <div className="text-3xl sm:text-4xl font-bold text-yellow-600 mb-2">
-              <CountUp 
-                end={tokenData?.feesCollected || 0} 
-                duration={1}
-                decimals={2}
-                useEasing={true}
-                start={0}
-                key={`fees-sol-${tokenData?.feesCollected || 0}`}
-              /> SOL
-            </div>
-            <div className="text-lg sm:text-xl font-semibold text-yellow-500 mb-2">
-              $<CountUp 
-                end={(tokenData?.feesCollected || 0) * solPrice} 
-                duration={1}
-                separator=","
-                useEasing={true}
-                start={0}
-                key={`fees-usd-${(tokenData?.feesCollected || 0) * solPrice}`}
-              />
-            </div>
+            <motion.div 
+              key={`fees-sol-${tokenData?.feesCollected || 0}`}
+              initial={{ opacity: 0.7, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="text-3xl sm:text-4xl font-bold text-yellow-600 mb-2"
+            >
+              {(tokenData?.feesCollected || 0).toFixed(2)} SOL
+            </motion.div>
+            <motion.div 
+              key={`fees-usd-${(tokenData?.feesCollected || 0) * solPrice}`}
+              initial={{ opacity: 0.7, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="text-lg sm:text-xl font-semibold text-yellow-500 mb-2"
+            >
+              ${((tokenData?.feesCollected || 0) * solPrice).toLocaleString()}
+            </motion.div>
             <p className="text-sm sm:text-base text-gray-600">total trading fees</p>
           </motion.div>
 
