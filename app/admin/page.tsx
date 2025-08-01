@@ -8,9 +8,15 @@ export default function AdminPage() {
   const [message, setMessage] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
+  const [isClient, setIsClient] = useState(false);
 
   // Get password from environment variable or use default
   const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'unbagged2024';
+
+  // Handle hydration
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,6 +54,20 @@ export default function AdminPage() {
     setIsLoading(false);
   };
 
+  // Show loading state during hydration
+  if (!isClient) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="bg-white p-8 rounded-lg shadow-md w-96">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading admin panel...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -62,11 +82,12 @@ export default function AdminPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full p-3 border border-gray-300 rounded-md"
                 placeholder="Enter admin password"
+                autoComplete="current-password"
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700"
+              className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 transition-colors"
             >
               Login
             </button>
@@ -111,7 +132,7 @@ export default function AdminPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-green-600 text-white p-3 rounded-md hover:bg-green-700 disabled:opacity-50"
+            className="w-full bg-green-600 text-white p-3 rounded-md hover:bg-green-700 disabled:opacity-50 transition-colors"
           >
             {isLoading ? 'Updating...' : 'Update Total Fees'}
           </button>
@@ -128,8 +149,12 @@ export default function AdminPage() {
         )}
 
         <button
-          onClick={() => setIsAuthenticated(false)}
-          className="w-full mt-4 bg-gray-600 text-white p-3 rounded-md hover:bg-gray-700"
+          onClick={() => {
+            setIsAuthenticated(false);
+            setPassword('');
+            setMessage('');
+          }}
+          className="w-full mt-4 bg-gray-600 text-white p-3 rounded-md hover:bg-gray-700 transition-colors"
         >
           Logout
         </button>
