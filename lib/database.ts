@@ -1,12 +1,28 @@
 import { neon } from '@neondatabase/serverless';
 
-// Get the database URL from environment variables
-const sql = neon(process.env.DATABASE_URL!);
+// Lazy database connection - only created when needed at runtime
+let sql: any = null;
+
+function getDatabaseConnection() {
+  if (!sql) {
+    const databaseUrl = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
+    if (databaseUrl) {
+      sql = neon(databaseUrl);
+    }
+  }
+  return sql;
+}
 
 // Initialize the database table if it doesn't exist
 export async function initDatabase() {
+  const db = getDatabaseConnection();
+  if (!db) {
+    console.log('No database connection available, skipping initialization');
+    return;
+  }
+  
   try {
-    await sql`
+    await db`
       CREATE TABLE IF NOT EXISTS fees_data (
         id SERIAL PRIMARY KEY,
         total_fees DECIMAL(10,2) NOT NULL DEFAULT 137.31,
@@ -15,9 +31,9 @@ export async function initDatabase() {
     `;
     
     // Insert default data if table is empty
-    const existingData = await sql`SELECT COUNT(*) as count FROM fees_data`;
+    const existingData = await db`SELECT COUNT(*) as count FROM fees_data`;
     if (existingData[0].count === 0) {
-      await sql`
+      await db`
         INSERT INTO fees_data (total_fees, last_updated)
         VALUES (137.31, CURRENT_TIMESTAMP)
       `;
@@ -29,8 +45,17 @@ export async function initDatabase() {
 
 // Get current fees data
 export async function getFeesData() {
+  const db = getDatabaseConnection();
+  if (!db) {
+    console.log('No database connection available, using fallback data');
+    return {
+      totalFees: 137.31,
+      lastUpdated: new Date().toISOString()
+    };
+  }
+  
   try {
-    const result = await sql`
+    const result = await db`
       SELECT total_fees, last_updated 
       FROM fees_data 
       ORDER BY id DESC 
@@ -59,8 +84,14 @@ export async function getFeesData() {
 
 // Update fees data
 export async function updateFeesData(totalFees: number) {
+  const db = getDatabaseConnection();
+  if (!db) {
+    console.log('No database connection available, cannot update fees');
+    return { success: false, error: 'Database not available' };
+  }
+  
   try {
-    await sql`
+    await db`
       INSERT INTO fees_data (total_fees, last_updated)
       VALUES (${totalFees}, CURRENT_TIMESTAMP)
     `;
