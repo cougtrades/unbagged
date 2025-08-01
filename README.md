@@ -63,7 +63,10 @@ npm run dev
 ### Environment Variables
 Create a `.env.local` file:
 ```env
-# Add any environment variables here
+# Admin password (required for admin panel)
+NEXT_PUBLIC_ADMIN_PASSWORD=your_secure_password_here
+
+# Add any other environment variables here
 # Currently using in-memory storage
 ```
 
@@ -86,7 +89,7 @@ netlify deploy --prod
 ## 🔐 Admin Access
 
 - **URL**: [https://unbagged.fun/admin](https://unbagged.fun/admin)
-- **Password**: `unbagged2024`
+- **Password**: Set via `NEXT_PUBLIC_ADMIN_PASSWORD` environment variable
 - **Function**: Update total fees collected
 
 ## 📊 API Endpoints

@@ -9,8 +9,8 @@ export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
 
-  // Simple authentication - you can change this password
-  const ADMIN_PASSWORD = 'unbagged2024';
+  // Get password from environment variable or use default
+  const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'unbagged2024';
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
