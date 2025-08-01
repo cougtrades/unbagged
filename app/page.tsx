@@ -42,7 +42,7 @@ export default function Home() {
     const fetchData = async () => {
       try {
         console.log('🔍 Fetching total fees data...');
-        const response = await fetch('/api/padre-scraper');
+        const response = await fetch('/api/fees');
         const data = await response.json();
         
         console.log('✅ Data received:', data);
