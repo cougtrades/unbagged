@@ -247,7 +247,7 @@ export default function Home() {
             <div className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-unbagged-600 mb-4">
               <CountUp 
                 end={tokenData?.bagsRemoved || 0} 
-                duration={2}
+                duration={1}
                 separator=","
                 useEasing={true}
                 start={0}
@@ -271,7 +271,7 @@ export default function Home() {
             <div className="text-3xl sm:text-4xl font-bold text-ocean-600 mb-2">
               <CountUp 
                 end={tokenData?.oceanCleanupDonation || 0} 
-                duration={1.5}
+                duration={1}
                 decimals={2}
                 useEasing={true}
                 start={0}
@@ -281,7 +281,7 @@ export default function Home() {
             <div className="text-lg sm:text-xl font-semibold text-ocean-500 mb-2">
               $<CountUp 
                 end={(tokenData?.oceanCleanupDonation || 0) * solPrice} 
-                duration={1.5}
+                duration={1}
                 separator=","
                 useEasing={true}
                 start={0}
@@ -302,7 +302,7 @@ export default function Home() {
             <div className="text-3xl sm:text-4xl font-bold text-yellow-600 mb-2">
               <CountUp 
                 end={tokenData?.feesCollected || 0} 
-                duration={1.5}
+                duration={1}
                 decimals={2}
                 useEasing={true}
                 start={0}
@@ -312,7 +312,7 @@ export default function Home() {
             <div className="text-lg sm:text-xl font-semibold text-yellow-500 mb-2">
               $<CountUp 
                 end={(tokenData?.feesCollected || 0) * solPrice} 
-                duration={1.5}
+                duration={1}
                 separator=","
                 useEasing={true}
                 start={0}
