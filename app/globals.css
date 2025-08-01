@@ -31,7 +31,9 @@
   
   @media (max-width: 640px) {
     .hero-bg {
-      background-position: center 30% !important;
+      background-size: contain !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
     }
   }
 } 
