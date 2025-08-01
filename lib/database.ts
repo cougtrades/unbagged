@@ -35,7 +35,7 @@ export async function initDatabase() {
     if (existingData[0].count === 0) {
       await db`
         INSERT INTO fees_data (total_fees, last_updated)
-        VALUES (137.31, CURRENT_TIMESTAMP)
+        VALUES (139.89, CURRENT_TIMESTAMP)
       `;
     }
   } catch (error) {
@@ -49,7 +49,7 @@ export async function getFeesData() {
   if (!db) {
     console.log('No database connection available, using fallback data');
     return {
-      totalFees: 137.31,
+      totalFees: 139.89,
       lastUpdated: new Date().toISOString()
     };
   }
@@ -70,13 +70,13 @@ export async function getFeesData() {
     }
     
     return {
-      totalFees: 137.31,
+      totalFees: 139.89,
       lastUpdated: new Date().toISOString()
     };
   } catch (error) {
     console.error('Error fetching fees data:', error);
     return {
-      totalFees: 137.31,
+      totalFees: 139.89,
       lastUpdated: new Date().toISOString()
     };
   }

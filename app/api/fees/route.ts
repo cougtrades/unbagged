@@ -48,18 +48,18 @@ export async function GET() {
     
     // Return fallback data
     const fallbackData = {
-      totalFees: 137.31,
-      bagsRemoved: 453123,
-      oceanCleanupDonation: 123.58,
-      marketingBudget: 13.73,
+      totalFees: 139.89,
+      bagsRemoved: 461637,
+      oceanCleanupDonation: 125.90,
+      marketingBudget: 13.99,
       totalSupply: 999999366.7835349,
       price: 0,
-      feesCollected: 137.31,
-      totalTransactions: 4531,
+      feesCollected: 139.89,
+      totalTransactions: 4616,
       lastTransactionTime: new Date().toISOString(),
       dataSource: 'Fallback',
       isLive: false,
-      baselineFees: 137.31,
+      baselineFees: 139.89,
       additionalFees: 0,
     };
     
