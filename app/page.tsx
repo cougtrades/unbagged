@@ -184,7 +184,7 @@ export default function Home() {
             {/* Social Links */}
             <div className="flex justify-center gap-4 sm:gap-6 mb-6 sm:mb-8">
               <a 
-                href="https://x.com/i/communities/1951105698575577552" 
+                href="https://x.com/i/communities/1951982479419834397"
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="hover:opacity-80 transition-opacity"
