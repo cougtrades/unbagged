@@ -16,8 +16,12 @@ You're getting "failed to update fees" error from the admin page because your Ne
 2. Select your site
 3. Go to **Site settings** → **Environment variables**
 4. Add/update:
-   - `DATABASE_URL` = `your_connection_string_here`
+   - `NETLIFY_DATABASE_URL` = `your_connection_string_here` (preferred)
+   - `NETLIFY_DATABASE_URL_UNPOOLED` = `your_connection_string_here` (alternative)
+   - `DATABASE_URL` = `your_connection_string_here` (fallback)
    - `NEXT_PUBLIC_ADMIN_PASSWORD` = `unbagged2024`
+
+**Note**: Neon automatically creates `NETLIFY_DATABASE_URL` and `NETLIFY_DATABASE_URL_UNPOOLED` variables. Use `NETLIFY_DATABASE_URL` if available.
 
 ### Step 3: Test
 1. Wait 2-3 minutes for deployment
@@ -36,7 +40,7 @@ You're getting "failed to update fees" error from the admin page because your Ne
 ### Test Locally:
 ```bash
 # Set your database URL
-export DATABASE_URL="your_connection_string_here"
+export NETLIFY_DATABASE_URL="your_connection_string_here"
 
 # Test connection
 node test-db.js

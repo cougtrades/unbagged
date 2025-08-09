@@ -23,13 +23,17 @@ Your Neon database was deleted and you need to set up a new one with the name `w
 2. Select your site
 3. Go to **Site settings** → **Environment variables**
 4. Add/update these variables:
-   - `DATABASE_URL` = `your_neon_connection_string_here`
+   - `NETLIFY_DATABASE_URL` = `your_neon_connection_string_here` (preferred)
+   - `NETLIFY_DATABASE_URL_UNPOOLED` = `your_neon_connection_string_here` (alternative)
+   - `DATABASE_URL` = `your_neon_connection_string_here` (fallback)
    - `NEXT_PUBLIC_ADMIN_PASSWORD` = `unbagged2024` (or your preferred password)
+
+**Note**: Neon automatically creates `NETLIFY_DATABASE_URL` and `NETLIFY_DATABASE_URL_UNPOOLED` variables. Use `NETLIFY_DATABASE_URL` if available.
 
 #### Option B: Local Development
 1. Create a `.env.local` file in your project root:
    ```env
-   DATABASE_URL=your_neon_connection_string_here
+   NETLIFY_DATABASE_URL=your_neon_connection_string_here
    NEXT_PUBLIC_ADMIN_PASSWORD=unbagged2024
    ```
 
@@ -39,7 +43,7 @@ Run the test script to verify your connection:
 
 ```bash
 # Set your database URL (replace with your actual connection string)
-export DATABASE_URL="postgresql://username:password@host/wild-moon-63956341?sslmode=require"
+export NETLIFY_DATABASE_URL="postgresql://username:password@host/wild-moon-63956341?sslmode=require"
 
 # Run the test
 node test-db.js
@@ -48,6 +52,7 @@ node test-db.js
 **Expected output:**
 ```
 🔗 Testing database connection...
+📊 Using database URL from: NETLIFY_DATABASE_URL
 ✅ Database connection successful!
 Current time from database: 2024-01-15T10:30:00.000Z
 ⚠️ fees_data table does not exist, will be created on first use
@@ -77,7 +82,7 @@ Current time from database: 2024-01-15T10:30:00.000Z
 1. ✅ Database URL is correct
 2. ✅ Database is active in Neon console
 3. ✅ No IP restrictions blocking your connection
-4. ✅ Environment variables are set in Netlify
+4. ✅ Environment variables are set in Netlify (use `NETLIFY_DATABASE_URL`)
 
 ### Issue: "Table does not exist" Error
 
@@ -141,7 +146,7 @@ If you're still having issues:
    ```
 
 3. **Verify environment variables**:
-   - Make sure `DATABASE_URL` is set correctly
+   - Make sure `NETLIFY_DATABASE_URL` is set correctly
    - Check for typos in the connection string
 
 ## 🚀 Ready to Go!

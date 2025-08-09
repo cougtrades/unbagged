@@ -5,9 +5,18 @@ let sql: any = null;
 
 function getDatabaseConnection() {
   if (!sql) {
-    const databaseUrl = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
+    // Check for all possible Neon database URL environment variables
+    const databaseUrl = process.env.NETLIFY_DATABASE_URL || 
+                       process.env.NETLIFY_DATABASE_URL_UNPOOLED || 
+                       process.env.DATABASE_URL;
+    
     if (databaseUrl) {
       console.log('🔗 Connecting to Neon database...');
+      console.log('📊 Using database URL from:', 
+        process.env.NETLIFY_DATABASE_URL ? 'NETLIFY_DATABASE_URL' :
+        process.env.NETLIFY_DATABASE_URL_UNPOOLED ? 'NETLIFY_DATABASE_URL_UNPOOLED' :
+        'DATABASE_URL'
+      );
       try {
         sql = neon(databaseUrl);
         console.log('✅ Database connection established');
@@ -16,7 +25,8 @@ function getDatabaseConnection() {
         return null;
       }
     } else {
-      console.log('⚠️ No DATABASE_URL found in environment variables');
+      console.log('⚠️ No database URL found in environment variables');
+      console.log('🔍 Available environment variables:', Object.keys(process.env).filter(key => key.includes('DATABASE')));
     }
   }
   return sql;
