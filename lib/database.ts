@@ -7,7 +7,16 @@ function getDatabaseConnection() {
   if (!sql) {
     const databaseUrl = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
     if (databaseUrl) {
-      sql = neon(databaseUrl);
+      console.log('🔗 Connecting to Neon database...');
+      try {
+        sql = neon(databaseUrl);
+        console.log('✅ Database connection established');
+      } catch (error) {
+        console.error('❌ Failed to establish database connection:', error);
+        return null;
+      }
+    } else {
+      console.log('⚠️ No DATABASE_URL found in environment variables');
     }
   }
   return sql;
@@ -22,6 +31,7 @@ export async function initDatabase() {
   }
   
   try {
+    console.log('🔧 Initializing database table...');
     await db`
       CREATE TABLE IF NOT EXISTS fees_data (
         id SERIAL PRIMARY KEY,
@@ -33,13 +43,18 @@ export async function initDatabase() {
     // Insert default data if table is empty
     const existingData = await db`SELECT COUNT(*) as count FROM fees_data`;
     if (existingData[0].count === 0) {
+      console.log('📝 Inserting default fees data...');
       await db`
         INSERT INTO fees_data (total_fees, last_updated)
         VALUES (139.89, CURRENT_TIMESTAMP)
       `;
+      console.log('✅ Default data inserted');
+    } else {
+      console.log(`📊 Found ${existingData[0].count} existing records`);
     }
   } catch (error) {
-    console.error('Database initialization error:', error);
+    console.error('❌ Database initialization error:', error);
+    throw error;
   }
 }
 
@@ -74,7 +89,7 @@ export async function getFeesData() {
       lastUpdated: new Date().toISOString()
     };
   } catch (error) {
-    console.error('Error fetching fees data:', error);
+    console.error('❌ Error fetching fees data:', error);
     return {
       totalFees: 139.89,
       lastUpdated: new Date().toISOString()
@@ -91,14 +106,16 @@ export async function updateFeesData(totalFees: number) {
   }
   
   try {
+    console.log(`💾 Updating fees to ${totalFees} SOL...`);
     await db`
       INSERT INTO fees_data (total_fees, last_updated)
       VALUES (${totalFees}, CURRENT_TIMESTAMP)
     `;
     
+    console.log('✅ Fees updated successfully');
     return { success: true, totalFees };
   } catch (error) {
-    console.error('Error updating fees data:', error);
-    return { success: false, error: 'Failed to update fees' };
+    console.error('❌ Error updating fees data:', error);
+    return { success: false, error: `Failed to update fees: ${error.message}` };
   }
 } 

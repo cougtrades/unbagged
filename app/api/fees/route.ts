@@ -6,7 +6,12 @@ export async function GET() {
     console.log('🔍 Fetching fees data from Neon database...');
     
     // Initialize database on first request
-    await initDatabase();
+    try {
+      await initDatabase();
+    } catch (dbError) {
+      console.error('❌ Database initialization failed:', dbError);
+      // Continue with fallback data
+    }
     
     // Get fees data from database
     const feesData = await getFeesData();
@@ -31,8 +36,8 @@ export async function GET() {
       feesCollected: totalFees,
       totalTransactions: Math.round(bagsRemoved / 100),
       lastTransactionTime: feesData.lastUpdated,
-      dataSource: 'Neon Database',
-      isLive: true,
+      dataSource: feesData.totalFees === 139.89 ? 'Fallback' : 'Neon Database',
+      isLive: feesData.totalFees !== 139.89,
       baselineFees: totalFees,
       additionalFees: 0,
     };
@@ -40,6 +45,7 @@ export async function GET() {
     console.log('✅ Fees data ready:');
     console.log(`   Total Fees: ${totalFees} SOL`);
     console.log(`   Bags Removed: ${bagsRemoved.toLocaleString()} bags`);
+    console.log(`   Data Source: ${result.dataSource}`);
     
     return NextResponse.json(result);
     
@@ -76,14 +82,26 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid total fees value' }, { status: 400 });
     }
 
+    console.log(`💾 Attempting to update fees to ${totalFees} SOL...`);
+
     // Initialize database
-    await initDatabase();
+    try {
+      await initDatabase();
+    } catch (dbError) {
+      console.error('❌ Database initialization failed:', dbError);
+      return NextResponse.json({ 
+        error: 'Database not available. Please check your DATABASE_URL environment variable.' 
+      }, { status: 500 });
+    }
     
     // Update the database
     const result = await updateFeesData(totalFees);
     
     if (!result.success) {
-      return NextResponse.json({ error: result.error }, { status: 500 });
+      console.error('❌ Failed to update fees:', result.error);
+      return NextResponse.json({ 
+        error: result.error || 'Failed to update fees' 
+      }, { status: 500 });
     }
     
     console.log(`✅ Total fees updated to: ${totalFees} SOL`);
@@ -96,6 +114,8 @@ export async function POST(request: Request) {
     
   } catch (error) {
     console.error('❌ Error updating total fees:', error);
-    return NextResponse.json({ error: 'Failed to update total fees' }, { status: 500 });
+    return NextResponse.json({ 
+      error: `Failed to update total fees: ${error.message}` 
+    }, { status: 500 });
   }
 } 

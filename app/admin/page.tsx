@@ -42,13 +42,19 @@ export default function AdminPage() {
         body: JSON.stringify({ totalFees: parseFloat(totalFees.toString()) }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
         setMessage('Total fees updated successfully!');
       } else {
-        setMessage('Failed to update fees');
+        // Display the actual error message from the API
+        const errorMessage = data.error || 'Failed to update fees';
+        setMessage(`Error: ${errorMessage}`);
+        console.error('API Error:', data);
       }
     } catch (error) {
-      setMessage('Error updating fees');
+      console.error('Network Error:', error);
+      setMessage('Network error: Failed to connect to server');
     }
 
     setIsLoading(false);
